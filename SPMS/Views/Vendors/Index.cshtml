@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SPMS.Models.Vendor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Vender_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact_Person_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contect_Person_No)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vender_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact_Person_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contect_Person_No)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Vender_Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Vender_Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Vender_Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
