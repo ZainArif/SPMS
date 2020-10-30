@@ -13,28 +13,13 @@ namespace SPMS.Models
         public int Sale_Id { get; set; }
 
         [Required]
-        public int Purchase_Id { get; set; }
+        public int Customer_Id { get; set; }
 
-        [ForeignKey("Purchase_Id")]
-        public PurchaseDetail PurchaseDetail { get; set; }
+        [ForeignKey("Customer_Id")]
+        public Customer Customer { get; set; }
 
         [Required]
         public DateTime Sale_Date { get; set; }
-
-        [Required]
-        public string Customer_Name { get; set; }
-
-        [Required]
-        public string Customer_No { get; set; }
-
-        [Required]
-        public int Quantity { get; set; }
-
-        [Required]
-        public int Unit_Cost { get; set; }
-
-        [Required]
-        public int Total_Cost { get; set; }
 
         [Required]
         public int Amount_Received { get; set; }

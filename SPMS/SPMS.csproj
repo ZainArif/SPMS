@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20201030151212_item.cs" />
+    <Compile Remove="Data\Migrations\20201030151212_item.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201030152054_item.cs" />
+    <Compile Remove="Data\Migrations\20201030152054_item.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />

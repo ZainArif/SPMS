@@ -21,17 +21,7 @@ namespace SPMS.Models
         [Required]
         public DateTime Purchase_Date { get; set; }
 
-        [Required]
-        public string Purchase_Item { get; set; }
-
-        [Required]
-        public int Quantity { get; set; }
-
-        [Required]
-        public int Unit_Cost { get; set; }
-
-        [Required]
-        public int Total_Cost { get; set; }
+        public string Purchase_Description { get; set; }
 
         [Required]
         public int Amount_Paid { get; set; }
