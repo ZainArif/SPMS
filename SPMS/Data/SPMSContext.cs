@@ -21,5 +21,11 @@ namespace SPMS.Data
         public DbSet<SPMS.Models.SaleDetail> SaleDetail { get; set; }
 
         public DbSet<SPMS.Models.Customer> Customer { get; set; }
+
+        public DbSet<SPMS.Models.Item> Item { get; set; }
+
+        public DbSet<SPMS.Models.PurchaseItems> PurchaseItems { get; set; }
+
+        public DbSet<SPMS.Models.SaleItems> SaleItems { get; set; }
     }
 }

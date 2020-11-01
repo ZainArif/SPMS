@@ -12,12 +12,15 @@ namespace SPMS.Models
         public int Vender_Id { get; set; }
 
         [Required]
+        [Display(Name = "Vendor")]
         public string Vender_Name { get; set; }
 
         [Required]
+        [Display(Name = "Contact Person Name")]
         public string Contact_Person_Name { get; set; }
 
         [Required]
+        [Display(Name = "Contact Person No")]
         public string Contect_Person_No { get; set; }
     }
 }

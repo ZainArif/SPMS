@@ -39,6 +39,26 @@ namespace SPMS.Migrations
                     b.ToTable("Customer");
                 });
 
+            modelBuilder.Entity("SPMS.Models.Item", b =>
+                {
+                    b.Property<int>("Item_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Item_Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Item_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Item_Id");
+
+                    b.ToTable("Item");
+                });
+
             modelBuilder.Entity("SPMS.Models.PurchaseDetail", b =>
                 {
                     b.Property<int>("Purchase_Id")
@@ -71,6 +91,43 @@ namespace SPMS.Migrations
                     b.ToTable("PurchaseDetail");
                 });
 
+            modelBuilder.Entity("SPMS.Models.PurchaseItems", b =>
+                {
+                    b.Property<int>("Purchase_Item_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Available_Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Entry_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Item_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Purchase_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Total_Cost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Unit_Cost")
+                        .HasColumnType("int");
+
+                    b.HasKey("Purchase_Item_Id");
+
+                    b.HasIndex("Item_Id");
+
+                    b.HasIndex("Purchase_Id");
+
+                    b.ToTable("PurchaseItems");
+                });
+
             modelBuilder.Entity("SPMS.Models.SaleDetail", b =>
                 {
                     b.Property<int>("Sale_Id")
@@ -101,6 +158,40 @@ namespace SPMS.Migrations
                     b.HasIndex("Customer_Id");
 
                     b.ToTable("SaleDetail");
+                });
+
+            modelBuilder.Entity("SPMS.Models.SaleItems", b =>
+                {
+                    b.Property<int>("Sale_Item_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Entry_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Purchase_Item_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sale_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Total_Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Unit_Price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Sale_Item_Id");
+
+                    b.HasIndex("Purchase_Item_Id");
+
+                    b.HasIndex("Sale_Id");
+
+                    b.ToTable("SaleItems");
                 });
 
             modelBuilder.Entity("SPMS.Models.Vendor", b =>
@@ -136,11 +227,41 @@ namespace SPMS.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SPMS.Models.PurchaseItems", b =>
+                {
+                    b.HasOne("SPMS.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("Item_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SPMS.Models.PurchaseDetail", "PurchaseDetail")
+                        .WithMany()
+                        .HasForeignKey("Purchase_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SPMS.Models.SaleDetail", b =>
                 {
                     b.HasOne("SPMS.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("Customer_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SPMS.Models.SaleItems", b =>
+                {
+                    b.HasOne("SPMS.Models.PurchaseItems", "PurchaseItems")
+                        .WithMany()
+                        .HasForeignKey("Purchase_Item_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SPMS.Models.SaleDetail", "SaleDetail")
+                        .WithMany()
+                        .HasForeignKey("Sale_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

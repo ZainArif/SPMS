@@ -9,6 +9,10 @@
     <Compile Remove="Data\Migrations\20201030151212_item.Designer.cs" />
     <Compile Remove="Data\Migrations\20201030152054_item.cs" />
     <Compile Remove="Data\Migrations\20201030152054_item.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201030152643_item.cs" />
+    <Compile Remove="Data\Migrations\20201030152643_item.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201030154348_sale_purchase_items.cs" />
+    <Compile Remove="Data\Migrations\20201030154348_sale_purchase_items.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
