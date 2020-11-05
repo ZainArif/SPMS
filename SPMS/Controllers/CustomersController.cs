@@ -25,24 +25,6 @@ namespace SPMS.Controllers
             return View(await _context.Customer.ToListAsync());
         }
 
-        // GET: Customers/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customer
-                .FirstOrDefaultAsync(m => m.Customer_Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
-        }
-
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -117,32 +99,33 @@ namespace SPMS.Controllers
         }
 
         // GET: Customers/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Invalid Customer Id" });
             }
 
             var customer = await _context.Customer
                 .FirstOrDefaultAsync(m => m.Customer_Id == id);
+
             if (customer == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Customer Not Found" });
             }
 
-            return View(customer);
-        }
-
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var customer = await _context.Customer.FindAsync(id);
             _context.Customer.Remove(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int flag = await _context.SaveChangesAsync();
+
+            if (flag >= 0)
+            {
+                return Json(new { success = true, message = "Delete Successful" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Delete Not Successful" });
+            }
         }
 
         private bool CustomerExists(int id)

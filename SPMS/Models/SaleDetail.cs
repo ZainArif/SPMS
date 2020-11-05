@@ -10,6 +10,7 @@ namespace SPMS.Models
     public class SaleDetail
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Sale_Id { get; set; }
 
         [Required]
@@ -26,9 +27,6 @@ namespace SPMS.Models
 
         [Required]
         public int Amount_Balance { get; set; }
-
-        [Required]
-        public int Expense { get; set; }
 
         public DateTime Entry_Date { get; set; }
     }

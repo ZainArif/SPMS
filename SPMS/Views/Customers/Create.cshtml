@@ -1,37 +1,49 @@
 ﻿@model SPMS.Models.Customer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Customer";
 }
 
-<h1>Create</h1>
-
-<h4>Customer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Customer_Name" class="control-label"></label>
-                <input asp-for="Customer_Name" class="form-control" />
-                <span asp-validation-for="Customer_Name" class="text-danger"></span>
+<form asp-action="Create">
+    <div class="row p-4 mx-2">
+        <div class="col-12">
+            <h2 style="color:#177b8b">Add Customer</h2>
+        </div>
+        <div class="col-12">
+            <hr />
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12 p-3">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Customer_Name" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Customer_Name" class="form-control" />
+                    <span asp-validation-for="Customer_Name" class="text-danger"></span>
+                </div> 
             </div>
-            <div class="form-group">
-                <label asp-for="Customer_No" class="control-label"></label>
-                <input asp-for="Customer_No" class="form-control" />
-                <span asp-validation-for="Customer_No" class="text-danger"></span>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Customer_No" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Customer_No" class="form-control" />
+                    <span asp-validation-for="Customer_No" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group row">
+                <div class="col-4 offset-4">
+                    <input type="submit" value="Create" class="btn btn-info form-control" />
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

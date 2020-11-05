@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SPMS.Data;
 
 namespace SPMS.Migrations
 {
     [DbContext(typeof(SPMSContext))]
-    partial class SPMSContextModelSnapshot : ModelSnapshot
+    [Migration("20201102170603_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +64,7 @@ namespace SPMS.Migrations
             modelBuilder.Entity("SPMS.Models.PurchaseDetail", b =>
                 {
                     b.Property<int>("Purchase_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("Amount_Balance")
                         .HasColumnType("int");
@@ -131,9 +131,7 @@ namespace SPMS.Migrations
             modelBuilder.Entity("SPMS.Models.SaleDetail", b =>
                 {
                     b.Property<int>("Sale_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("Amount_Balance")
                         .HasColumnType("int");
@@ -146,9 +144,6 @@ namespace SPMS.Migrations
 
                     b.Property<DateTime>("Entry_Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Expense")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Sale_Date")
                         .HasColumnType("datetime2");

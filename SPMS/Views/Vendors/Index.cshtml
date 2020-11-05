@@ -10,7 +10,7 @@
             <h2 style="color:#177b8b">Vendor List</h2>
         </div>
         <div class="col-6 text-right">
-            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp;Create New Vendor</a>
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp;Add New Vendor</a>
         </div>
     </div>
     <br />
@@ -29,6 +29,7 @@
                         @Html.DisplayNameFor(model => model.Contect_Person_No)
                     </th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,12 +45,11 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Contect_Person_No)
                         </td>
-                        <td>
-                            <div class="text-center">
-                                <a asp-action="Edit" asp-route-id="@item.Vender_Id" class="btn btn-success"><i class="far fa-edit"></i></a>
-                                &nbsp;
-                                <a id="btnDel" onclick="Delete('vendors/Delete/@item.Vender_Id','vendors/Index')" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
-                            </div>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Vender_Id" class="btn btn-success text-white"><i class="far fa-edit"></i></a>
+                        </td>
+                        <td class="text-center">
+                            <a onclick="Delete('vendors/Delete/@item.Vender_Id')" class="btn btn-danger text-white"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 }
@@ -60,7 +60,7 @@
 
 @section Scripts{
     <script>
-        function Delete(delUrl,url) {
+        function Delete(delUrl) {
             swal({
                 title: "Are you sure you want to delete?",
                 text: "You will not be able to restore data!",
@@ -74,10 +74,7 @@
                         url: delUrl,
                         success: function (data) {
                             if (data.success) {
-                                $.ajax({
-                                    type: "GET",
-                                    url: url
-                                });
+                                window.location.reload();
                             }
                             else {
                                 swal({

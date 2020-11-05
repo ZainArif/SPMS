@@ -25,24 +25,6 @@ namespace SPMS.Controllers
             return View(await _context.Item.ToListAsync());
         }
 
-        // GET: Items/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var item = await _context.Item
-                .FirstOrDefaultAsync(m => m.Item_Id == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            return View(item);
-        }
-
         // GET: Items/Create
         public IActionResult Create()
         {
@@ -117,32 +99,33 @@ namespace SPMS.Controllers
         }
 
         // GET: Items/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Invalid Item Id" });
             }
 
             var item = await _context.Item
                 .FirstOrDefaultAsync(m => m.Item_Id == id);
+
             if (item == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Item Not Found" });
             }
 
-            return View(item);
-        }
-
-        // POST: Items/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var item = await _context.Item.FindAsync(id);
             _context.Item.Remove(item);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int flag = await _context.SaveChangesAsync();
+
+            if (flag >= 0)
+            {
+                return Json(new { success = true, message = "Delete Successful" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Delete Not Successful" });
+            }
         }
 
         private bool ItemExists(int id)

@@ -13,10 +13,13 @@ namespace SPMS.Controllers
     public class PurchaseDetailsController : Controller
     {
         private readonly SPMSContext _context;
+        private readonly DbFunction _dbFunction;
+        private const string PurchaseDetail_SEQ = "dbo.purchasedetail_seq";
 
-        public PurchaseDetailsController(SPMSContext context)
+        public PurchaseDetailsController(SPMSContext context, DbFunction dbFunction)
         {
             _context = context;
+            _dbFunction = dbFunction;
         }
 
         // GET: PurchaseDetails
@@ -61,6 +64,8 @@ namespace SPMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                purchaseDetail.Purchase_Id = _dbFunction.GetKey(PurchaseDetail_SEQ);
+                purchaseDetail.Entry_Date = DateTime.Now;
                 _context.Add(purchaseDetail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -123,33 +128,32 @@ namespace SPMS.Controllers
         }
 
         // GET: PurchaseDetails/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Invalid Purchase No" });
             }
 
-            var purchaseDetail = await _context.PurchaseDetail
-                .Include(p => p.Vendor)
-                .FirstOrDefaultAsync(m => m.Purchase_Id == id);
+            var purchaseDetail = await _context.PurchaseDetail.FindAsync(id);
+
             if (purchaseDetail == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Purchase No Not Found" });
             }
 
-            return View(purchaseDetail);
-        }
-
-        // POST: PurchaseDetails/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var purchaseDetail = await _context.PurchaseDetail.FindAsync(id);
             _context.PurchaseDetail.Remove(purchaseDetail);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            int flag = await _context.SaveChangesAsync();
+
+            if (flag >= 0)
+            {
+                return Json(new { success = true, message = "Delete Successful" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Delete Not Successful" });
+            }
         }
 
         private bool PurchaseDetailExists(int id)

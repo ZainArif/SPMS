@@ -14,18 +14,18 @@ namespace SPMS.Data
         {
         }
 
-        public DbSet<SPMS.Models.Vendor> Vendor { get; set; }
+        public DbSet<Vendor> Vendor { get; set; }
 
-        public DbSet<SPMS.Models.PurchaseDetail> PurchaseDetail { get; set; }
+        public DbSet<PurchaseDetail> PurchaseDetail { get; set; }
 
-        public DbSet<SPMS.Models.SaleDetail> SaleDetail { get; set; }
+        public DbSet<SaleDetail> SaleDetail { get; set; }
 
-        public DbSet<SPMS.Models.Customer> Customer { get; set; }
+        public DbSet<Customer> Customer { get; set; }
 
-        public DbSet<SPMS.Models.Item> Item { get; set; }
+        public DbSet<Item> Item { get; set; }
 
-        public DbSet<SPMS.Models.PurchaseItems> PurchaseItems { get; set; }
+        public DbSet<PurchaseItems> PurchaseItems { get; set; }
 
-        public DbSet<SPMS.Models.SaleItems> SaleItems { get; set; }
+        public DbSet<SaleItems> SaleItems { get; set; }
     }
 }

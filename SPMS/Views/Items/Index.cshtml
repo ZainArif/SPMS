@@ -1,41 +1,85 @@
 ﻿@model IEnumerable<SPMS.Models.Item>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Item List";
 }
 
-<h1>Index</h1>
+<div class="p-4">
+    <div class="row">
+        <div class="col-6">
+            <h2 style="color:#177b8b">Item List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp;Add New Item</a>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="table-responsive rounded p-3" style="background-color:#d6f1eb">
+        <table id="tableData" class="table table-hover table-bordered" style="width:100%">
+            <thead class="text-white" style="background-color:#177b8b">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item_Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item_Code)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Item_Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Item_Code)
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Item_Id" class="btn btn-success text-white"><i class="far fa-edit"></i></a>
+                        </td>
+                        <td class="text-center">
+                            <a onclick="Delete('items/Delete/@item.Item_Id')" class="btn btn-danger text-white"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Item_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Item_Code)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Item_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Item_Code)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Item_Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Item_Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Item_Id">Delete</a>
-            </td>
-        </tr>
+@section Scripts{
+    <script>
+        function Delete(delUrl) {
+            swal({
+                title: "Are you sure you want to delete?",
+                text: "You will not be able to restore data!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: delUrl,
+                        success: function (data) {
+                            if (data.success) {
+                                window.location.reload();
+                            }
+                            else {
+                                swal({
+                                    text: data.message,
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        };
+    </script>
 }
-    </tbody>
-</table>
