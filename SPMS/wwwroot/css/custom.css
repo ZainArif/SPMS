@@ -2,6 +2,15 @@
     padding-top:60px;
 }
 
-.dashboard{
-    padding-top:30%;
+.containerBody{
+    max-width:none;
+    margin-left:0px;
+    margin-right:0px;
+    width:100%;
+    padding-left:15px;
+    padding-right:15px;
+}
+
+.dashboard {
+    padding-top: 30%;
 }

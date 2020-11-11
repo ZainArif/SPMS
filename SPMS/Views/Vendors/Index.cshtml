@@ -16,8 +16,8 @@
     <br />
     <br />
     <div class="table-responsive rounded p-3" style="background-color:#d6f1eb">
-        <table id="tableData" class="table table-hover table-bordered" style="width:100%">
-            <thead class="text-white" style="background-color:#177b8b">
+        <table id="tableData" class="table table-sm table-hover table-bordered" style="width:100%">
+            <thead class="text-white text-center" style="background-color:#177b8b">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Vender_Name)
@@ -46,10 +46,10 @@
                             @Html.DisplayFor(modelItem => item.Contect_Person_No)
                         </td>
                         <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@item.Vender_Id" class="btn btn-success text-white"><i class="far fa-edit"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Vender_Id" class="btn btn-sm btn-success text-white"><i class="far fa-edit"></i></a>
                         </td>
                         <td class="text-center">
-                            <a onclick="Delete('vendors/Delete/@item.Vender_Id')" class="btn btn-danger text-white"><i class="far fa-trash-alt"></i></a>
+                            <a onclick="Delete('vendors/Delete/@item.Vender_Id')" class="btn btn-sm btn-danger text-white"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 }

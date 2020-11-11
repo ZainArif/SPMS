@@ -12,7 +12,7 @@ namespace SPMS.Models
         public int Customer_Id { get; set; }
 
         [Required]
-        [Display(Name ="Customer Name")]
+        [Display(Name ="Customer")]
         public string Customer_Name { get; set; }
 
         [Required]

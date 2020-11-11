@@ -15,6 +15,7 @@ namespace SPMS.Models
         public int Purchase_Id { get; set; }
 
         [Required]
+        [Range(1,Int32.MaxValue, ErrorMessage = "The Vendor field is required.")]
         public int Vender_Id { get; set; }
 
         [ForeignKey("Vender_Id")]
@@ -22,7 +23,7 @@ namespace SPMS.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         [Display(Name = "Purchase Date")]
         public DateTime Purchase_Date { get; set; }
 

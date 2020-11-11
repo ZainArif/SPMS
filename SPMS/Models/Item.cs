@@ -12,7 +12,7 @@ namespace SPMS.Models
         public int Item_Id { get; set; }
 
         [Required]
-        [Display(Name = "Item Name")]
+        [Display(Name = "Item")]
         public string Item_Name { get; set; }
 
         [Required]
