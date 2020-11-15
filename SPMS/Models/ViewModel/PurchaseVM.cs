@@ -12,7 +12,7 @@ namespace SPMS.Models.ViewModel
 
         public PurchaseItems PurchaseItems { get; set; }
 
-        public IEnumerable<PurchaseItems> PurchaseItemsList { get; set; }
+        public List<PurchaseItems> PurchaseItemsList { get; set; }
 
         public IEnumerable<SelectListItem> VendorList { get; set; }
 

@@ -65,7 +65,7 @@
                             @Html.DisplayFor(modelItem => item.Amount_Balance)
                         </td>
                         <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@item.Purchase_Id" class="btn btn-sm btn-success text-white"><i class="far fa-edit"></i></a>
+                            <a asp-action="Create" asp-route-Purchase_Id="@item.Purchase_Id" class="btn btn-sm btn-success text-white"><i class="far fa-edit"></i></a>
                         </td>
                         <td class="text-center">
                             <a onclick="Delete('purchaseDetails/Delete/@item.Purchase_Id')" class="btn btn-sm btn-danger text-white"><i class="far fa-trash-alt"></i></a>

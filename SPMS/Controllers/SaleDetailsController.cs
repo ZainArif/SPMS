@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SPMS.Data;
 using SPMS.Models;
+using SPMS.Models.ViewModel;
 
 namespace SPMS.Controllers
 {
     public class SaleDetailsController : Controller
     {
         private readonly SPMSContext _context;
+        private readonly DbFunction _dbFunction;
+        private const string SaleDetail_SEQ = "dbo.saledetail_seq";
 
-        public SaleDetailsController(SPMSContext context)
+        public SaleDetailsController(SPMSContext context, DbFunction dbFunction)
         {
             _context = context;
+            _dbFunction = dbFunction;
         }
 
         // GET: SaleDetails
@@ -46,10 +50,32 @@ namespace SPMS.Controllers
         }
 
         // GET: SaleDetails/Create
-        public IActionResult Create()
+        public IActionResult Create(int? Sale_Id)
         {
-            ViewData["Customer_Id"] = new SelectList(_context.Customer, "Customer_Id", "Customer_Name");
-            return View();
+            List<Customer> ddl_customer = _context.Customer.ToList();
+            ddl_customer.Insert(0, new Customer() { Customer_Id = 0, Customer_Name = "-Please select a customer-" });
+
+            SaleDetail saleDetail = _context.SaleDetail.Find(Sale_Id);
+
+            List<SaleItems> saleItemsList = _context.SaleItems.Where(s => s.Sale_Id == Sale_Id).ToList();
+
+            int totalPriceSaleItems = _context.SaleItems.Where(s => s.Sale_Id == Sale_Id).Select(s => s.Total_Price).Sum();
+
+            if(totalPriceSaleItems != 0 )
+                saleItemsList.Add(new SaleItems() { Total_Price = totalPriceSaleItems });
+
+            SaleVM saleVM = new SaleVM()
+            {
+                SaleDetail = saleDetail ?? new SaleDetail() { Sale_Date = DateTime.Today },
+                SaleItems = new SaleItems(),
+                SaleItemsList = saleItemsList,
+                CustomerList = ddl_customer.Select(s => new SelectListItem
+                {
+                    Text = s.Customer_Name,
+                    Value = s.Customer_Id.ToString()
+                })
+            };
+            return View(saleVM);
         }
 
         // POST: SaleDetails/Create
@@ -57,16 +83,32 @@ namespace SPMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Sale_Id,Customer_Id,Sale_Date,Amount_Received,Amount_Balance,Expense,Entry_Date")] SaleDetail saleDetail)
+        public async Task<IActionResult> CreateSaleDetail(SaleVM objVM)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(saleDetail);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                objVM.SaleDetail.Entry_Date = DateTime.Now;
+                if(objVM.SaleDetail.Sale_Id == 0)
+                {
+                    objVM.SaleDetail.Sale_Id = _dbFunction.GetKey(SaleDetail_SEQ);
+                    _context.Add(objVM.SaleDetail);
+                }
+                else
+                {
+                    _context.Update(objVM.SaleDetail);
+                }
+                
+                int flag = await _context.SaveChangesAsync();
+
+                if (flag >= 0)
+                    TempData["success"] = "Sale saved successfully";
+                else
+                    TempData["danger"] = "Sale not saved";
+
+                return RedirectToAction(actionName: "Create", routeValues: new { @Sale_Id = objVM.SaleDetail.Sale_Id });
             }
-            ViewData["Customer_Id"] = new SelectList(_context.Customer, "Customer_Id", "Customer_Name", saleDetail.Customer_Id);
-            return View(saleDetail);
+
+            return RedirectToAction(actionName: "Create", routeValues: new { @Sale_Id = objVM.SaleDetail.Sale_Id });
         }
 
         // GET: SaleDetails/Edit/5
@@ -122,34 +164,57 @@ namespace SPMS.Controllers
             return View(saleDetail);
         }
 
-        // GET: SaleDetails/Delete/5
+
+        public async Task<IActionResult> GetPurchaseItemList(int? id)
+        {
+            if (id == null)
+            {
+                return Json(new { success = false, message = "Invalid Purchase No" });
+            }
+
+            List<PurchaseItems> purchaseItems = await _context.PurchaseItems.Include(i => i.Item).Where(i => i.Purchase_Id == id).OrderBy(i => i.Item.Item_Name).ToListAsync();
+
+            purchaseItems.Insert(0, new PurchaseItems() { Item = new Item() { Item_Id = 0, Item_Name = "-Please select a item-" } });
+
+            IEnumerable<SelectListItem> ItemsList = purchaseItems.Select(i => new SelectListItem
+            {
+               Text = i.Item.Item_Id == 0 ? i.Item.Item_Name : i.Item.Item_Name + " | " + i.Item.Item_Code,
+               Value = i.Purchase_Item_Id.ToString()
+            });
+
+            return Json(new { success = true, message = "Item Found", itemsList = ItemsList });
+        }
+
+        [HttpDelete]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Invalid Sale No" });
             }
 
-            var saleDetail = await _context.SaleDetail
-                .Include(s => s.Customer)
-                .FirstOrDefaultAsync(m => m.Sale_Id == id);
+            var saleDetail = await _context.SaleDetail.FindAsync(id);
+
             if (saleDetail == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Sale No Not Found" });
             }
 
-            return View(saleDetail);
-        }
+            IEnumerable<SaleItems> items = _context.SaleItems.Where(i => i.Sale_Id == id).ToList();
 
-        // POST: SaleDetails/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var saleDetail = await _context.SaleDetail.FindAsync(id);
             _context.SaleDetail.Remove(saleDetail);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            _context.SaleItems.RemoveRange(items);
+
+            int flag = await _context.SaveChangesAsync();
+
+            if (flag >= 0)
+            {
+                return Json(new { success = true, message = "Delete Successful" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Delete Not Successful" });
+            }
         }
 
         private bool SaleDetailExists(int id)

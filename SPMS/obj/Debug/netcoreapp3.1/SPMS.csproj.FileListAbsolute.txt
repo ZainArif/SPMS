@@ -18,10 +18,8 @@ D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\Items\Edit.c
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\Items\Index.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\PurchaseDetails\Create.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\PurchaseDetails\Details.cshtml.g.cs
-D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\PurchaseDetails\Edit.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\PurchaseDetails\Index.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\SaleDetails\Create.cshtml.g.cs
-D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\SaleDetails\Delete.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\SaleDetails\Details.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\SaleDetails\Edit.cshtml.g.cs
 D:\study\web projects\SPMS\SPMS\obj\Debug\netcoreapp3.1\Razor\Views\SaleDetails\Index.cshtml.g.cs
