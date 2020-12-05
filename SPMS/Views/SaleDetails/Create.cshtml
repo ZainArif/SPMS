@@ -198,6 +198,40 @@
             tp.val(total_price);
         };
 
+        function onClickEditItem(url) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        $("#btn_item").val("Update");
+                        $("#tp").val(data.itemDetail.total_Price);
+                        $("#up").val(data.itemDetail.unit_Price);
+                        $("#qty").val(data.itemDetail.quantity);
+                        $("#hid_sitem_id").val(data.itemDetail.sale_Item_Id);
+                        $("#hid_sid").val(data.itemDetail.sale_Id);
+                        $('#p_no').val(data.purchaseId);
+                        var s = '';
+                        for (var i = 0; i < data.itemsList.length; i++) {
+                            if (data.itemsList[i].selected == true) {
+                                s += '<option value="' + data.itemsList[i].value + '" selected="selected">' + data.itemsList[i].text + '</option>';
+                            }
+                            else {
+                                s += '<option value="' + data.itemsList[i].value + '">' + data.itemsList[i].text + '</option>';
+                            }
+                        }
+                        $("#ddl_item").html(s);
+                    }
+                    else {
+                        swal({
+                            text: data.message,
+                            icon: "error"
+                        });
+                    }
+                }
+            });
+        }
+
         function loadPurchaseItems() {
             var p_no = $('#p_no').val();
             var url = "/saleDetails/GetPurchaseItemList/" + p_no;
@@ -221,5 +255,33 @@
                 }
             });
         }
+
+        function DeleteItem(delUrl) {
+            swal({
+                title: "Are you sure you want to delete?",
+                text: "You will not be able to restore data!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: delUrl,
+                        success: function (data) {
+                            if (data.success) {
+                                window.location.reload();
+                            }
+                            else {
+                                swal({
+                                    text: data.message,
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        };
     </script>
 }

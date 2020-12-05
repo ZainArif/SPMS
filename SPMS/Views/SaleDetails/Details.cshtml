@@ -1,48 +1,116 @@
-﻿@model SPMS.Models.SaleDetail
+﻿@model SPMS.Models.ViewModel.SaleVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Sale Detail";
 }
 
-<h1>Details</h1>
+<style>
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(23, 123, 139, 1);
+    }
 
-<div>
-    <h4>SaleDetail</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer.Customer_Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sale_Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sale_Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount_Received)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount_Received)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount_Balance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount_Balance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Entry_Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Entry_Date)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Sale_Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    dt {
+        color: #177b8b;
+    }
+</style>
+
+<div class="row p-4 mx-2">
+    <div class="form-group row col-12">
+        <div class="col-6">
+            <h2 style="color:#177b8b">Sale Detail</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i> &nbsp;Back to List</a>
+        </div>
+    </div>
+    <div class="col-12">
+        <hr />
+    </div>
+    <div class="col-12">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SaleDetail.Sale_Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SaleDetail.Sale_Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SaleDetail.Customer.Customer_Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SaleDetail.Customer.Customer_Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SaleDetail.Sale_Date)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SaleDetail.Sale_Date)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SaleDetail.Amount_Received)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SaleDetail.Amount_Received)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SaleDetail.Amount_Balance)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SaleDetail.Amount_Balance)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-12">
+        <br />
+    </div>
+    <div class="col-12">
+        <div class="table-responsive" style="background-color:#d6f1eb">
+            <table id="gridData" class="table table-sm table-striped table-bordered" style="width:100%">
+                <thead class="text-white text-center" style="background-color:#177b8b">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SaleItems.PurchaseItems.Item.Item_Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SaleItems.Quantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SaleItems.Unit_Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SaleItems.Total_Price)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.SaleItemsList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PurchaseItems.Item.Item_Name)
+                            </td>
+                            <td class="text-right">
+                                @if (item.Quantity != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                }
+                            </td>
+                            <td class="text-right">
+                                @if (item.Unit_Price != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Unit_Price)
+                                }
+                            </td>
+                            <td class="text-right">
+                                @Html.DisplayFor(modelItem => item.Total_Price)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
